@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31205.134
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccountingApp", "AccountingApp\AccountingApp.csproj", "{AA64690B-5392-452A-B98C-351E9D1B0E46}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAO", "DAO\DAO.csproj", "{72D87A4D-0B20-4614-A431-159019A6E475}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BLL", "BLL\BLL.csproj", "{D3539D8D-0F8D-4B6B-ADBA-9DB962EC6757}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AA64690B-5392-452A-B98C-351E9D1B0E46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AA64690B-5392-452A-B98C-351E9D1B0E46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AA64690B-5392-452A-B98C-351E9D1B0E46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AA64690B-5392-452A-B98C-351E9D1B0E46}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72D87A4D-0B20-4614-A431-159019A6E475}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72D87A4D-0B20-4614-A431-159019A6E475}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72D87A4D-0B20-4614-A431-159019A6E475}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72D87A4D-0B20-4614-A431-159019A6E475}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3539D8D-0F8D-4B6B-ADBA-9DB962EC6757}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3539D8D-0F8D-4B6B-ADBA-9DB962EC6757}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3539D8D-0F8D-4B6B-ADBA-9DB962EC6757}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3539D8D-0F8D-4B6B-ADBA-9DB962EC6757}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F0A1B5DF-E333-4024-BEBA-48D408D587E1}
+	EndGlobalSection
+EndGlobal
