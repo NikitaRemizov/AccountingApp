@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using DAO.Models;
 using DAO.Repositories;
 using DAO.Repositories.Interfaces;
 
@@ -15,7 +16,15 @@ namespace BLL.Utils
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterModule(new DAO.Utils.DAOModelsDependencyInjection(_connectionString));
-            builder.RegisterType<UserRepository>().As<IUserRepository>();
+            builder
+                .RegisterType<UserRepository>()
+                .As<IRepository<User>>();
+            builder
+                .RegisterType<BudgetChangeRepository>()
+                .As<IBudgetRepository<BudgetChange>>();
+            builder
+                .RegisterType<BudgetTypeRepository>()
+                .As<IBudgetRepository<BudgetType>>();
         }
     }
 }

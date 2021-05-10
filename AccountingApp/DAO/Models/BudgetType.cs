@@ -5,14 +5,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DAO.Models
 {
-    [Table("users")]
-    public class User : Model
+    // TODO: probably delete navigational properties for user
+
+    [Table("budgetTypes")]
+    public class BudgetType : BudgetModel
     {
         [Required]
-        public string Email { get; set; }
-        [Required]
-        public byte[] Password { get; set; }
-        public List<BudgetType> BudgetTypes { get; set; }
+        public string Name { get; set; }
         public List<BudgetChange> BudgetChanges { get; set; }
     }
 }

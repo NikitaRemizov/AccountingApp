@@ -3,9 +3,9 @@ using DAO.Repositories.Interfaces;
 
 namespace DAO.Repositories
 {
-    public class UserRepository : AccountingRepository<User>
+    public class BudgetTypeRepository : BudgetRepository<BudgetType>
     {
-        public UserRepository(IAccountingUnitOfWork unitOfWork)
+        public BudgetTypeRepository(IAccountingUnitOfWork unitOfWork) 
             : base(unitOfWork)
         {
         }

@@ -12,10 +12,10 @@ namespace BLL.Services
 {
     public class AccountService : IAccountService
     {
-        private readonly IUserRepository _repository;
+        private readonly IRepository<User> _repository;
         private readonly IMapper _mapper;
 
-        public AccountService(IUserRepository repository, IMapper mapper)
+        public AccountService(IRepository<User> repository, IMapper mapper)
         {
             _repository = repository;
             _mapper = mapper;

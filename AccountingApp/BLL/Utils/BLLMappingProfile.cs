@@ -14,6 +14,8 @@ namespace BLL.Utils
                 {
                     opt.MapFrom(user => new Password(user.Password).StoredHash);
                 });
+            CreateMap<BudgetChange, BudgetChangeDTO>().ReverseMap();
+            CreateMap<BudgetType, BudgetTypeDTO>().ReverseMap();
         }
     }
 }
