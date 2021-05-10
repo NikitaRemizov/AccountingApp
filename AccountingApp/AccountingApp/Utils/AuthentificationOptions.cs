@@ -1,17 +1,34 @@
 ﻿using Microsoft.IdentityModel.Tokens;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace AccountingApp.Utils
 {
     public class AuthentificationOptions
     {
-        public const string ISSUER = "MyAuthServer"; // издатель токена
-        public const string AUDIENCE = "MyAuthClient"; // потребитель токена
-        const string KEY = "mysupersecret_secretkey!123";   // ключ для шифрации
-        public const int LIFETIME = 1; // время жизни токена - 1 минута
-        public static SymmetricSecurityKey GetSymmetricSecurityKey()
+        public string Issuer { get; set; }
+        public string Audience { get; set; }
+        public string Key { private get; set; }
+        /// <summary>
+        /// Lifetime of token in minutes.
+        /// </summary>
+        public int Lifetime { get; set; }
+        public bool ValidateIssuer => Issuer is not null;
+        public bool ValidateAudience => Audience is not null;
+        public bool ValidateLifeTime => Lifetime != 0;
+        public bool ValidateSigningKey => SigningKey is not null;
+        public SymmetricSecurityKey SigningKey { get; private set; }
+
+        public void GenerateKey()
         {
-            return new SymmetricSecurityKey(Encoding.ASCII.GetBytes(KEY));
+            if (Key is not null)
+            {
+                SigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Key));
+                return;
+            }
+            var randomBytes = new byte[16];
+            RandomNumberGenerator.Create().GetBytes(randomBytes);
+            SigningKey = new SymmetricSecurityKey(randomBytes);
         }
     }
 }

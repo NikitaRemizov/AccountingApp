@@ -32,17 +32,6 @@ namespace BLL.Services
             return (await GetUserWithEmail(user.Email))?.Id;
         }
 
-        private async Task<User> GetUserWithEmail(string email)
-        {
-            var users = await _repository.Find(u => u.Email == email);
-            var userWithSameEmail = users.SingleOrDefault();
-            if (userWithSameEmail is null)
-            {
-                return null;
-            }
-            return userWithSameEmail;
-        }
-
         public async Task<Guid?> VerifyCredentials(UserDTO user)
         {
             var userWithSameEmail = await GetUserWithEmail(user.Email);
@@ -66,7 +55,18 @@ namespace BLL.Services
 
         public async Task<bool> IsRegistered(UserDTO user)
         {
-            return (await GetId(user)) is not null;
+            return (await GetUserWithEmail(user.Email)) is not null;
+        }
+
+        private async Task<User> GetUserWithEmail(string email)
+        {
+            var users = await _repository.Find(u => u.Email == email);
+            var userWithSameEmail = users.SingleOrDefault();
+            if (userWithSameEmail is null)
+            {
+                return null;
+            }
+            return userWithSameEmail;
         }
     }
 }

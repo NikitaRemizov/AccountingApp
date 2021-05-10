@@ -5,7 +5,7 @@ using System.Text;
 
 namespace BLL.Utils
 {
-    public class Password
+    internal class Password
     {
         private const int HashSize = 20;
         private const int SaltSize = 16;

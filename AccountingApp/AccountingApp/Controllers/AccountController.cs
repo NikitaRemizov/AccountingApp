@@ -8,7 +8,6 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -25,11 +24,15 @@ namespace AccountingApp.Controllers
 
         public IAccountService AccountService { get; }
         public IMapper Mapper { get; }
+        public AuthentificationOptions AuthOptions { get; }
 
-        public AccountController(IAccountService accountService, IMapper mapper)
+        public AccountController(IAccountService accountService,
+                                 IMapper mapper,
+                                 AuthentificationOptions authOptions)
         {
             AccountService = accountService;
             Mapper = mapper;
+            AuthOptions = authOptions;
         }
 
         [HttpPost("/register")]
@@ -56,52 +59,56 @@ namespace AccountingApp.Controllers
             return Token(userDTO);
         }
 
-
         private IActionResult Token(UserDTO user)
         {
             var identity = GetIdentity(user);
             if (identity == null)
             {
-                return BadRequest(new { errorText = "Invalid username or password." });
+                return BadRequest(new { errorText = "Provided invalid identity information" });
             }
 
             var now = DateTime.UtcNow;
-            // создаем JWT-токен
-            var jwt = new JwtSecurityToken(
-                    issuer: AuthentificationOptions.ISSUER,
-                    audience: AuthentificationOptions.AUDIENCE,
-                    notBefore: now,
-                    claims: identity.Claims,
-                    expires: now.Add(TimeSpan.FromMinutes(AuthentificationOptions.LIFETIME)),
-                    signingCredentials: new SigningCredentials(AuthentificationOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
-            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
+
+            var jwtToken = new JwtSecurityToken(
+                issuer: AuthOptions.Issuer,
+                audience: AuthOptions.Audience,
+                notBefore: now,
+                claims: identity.Claims,
+                expires: now.Add(TimeSpan.FromMinutes(AuthOptions.Lifetime)),
+                signingCredentials: new SigningCredentials(
+                    AuthOptions.SigningKey, 
+                    SecurityAlgorithms.HmacSha256
+                ));
+
+            var encodedJwtToken = new JwtSecurityTokenHandler().WriteToken(jwtToken);
 
             var response = new
             {
-                access_token = encodedJwt,
+                access_token = encodedJwtToken,
                 username = identity.Name
             };
 
-            return Json(response);
             return Ok(response);
         }
 
-        private ClaimsIdentity GetIdentity(UserDTO user)
+        private static ClaimsIdentity GetIdentity(UserDTO user)
         {
-            if (user != null)
+            if (user is null)
             {
-                var claims = new List<Claim>
-                {
-                    new Claim(ClaimsIdentity.DefaultNameClaimType, user.Email),
-                };
-                ClaimsIdentity claimsIdentity =
-                new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType,
-                    ClaimsIdentity.DefaultRoleClaimType);
-                return claimsIdentity;
+                return null;
             }
 
-            // если пользователя не найдено
-            return null;
+            var claims = new List<Claim>
+            {
+                new Claim(JwtRegisteredClaimNames.Email, user.Email),
+            };
+            ClaimsIdentity claimsIdentity = new ClaimsIdentity(
+                claims: claims, 
+                authenticationType: "Token", 
+                nameType: ClaimsIdentity.DefaultNameClaimType,
+                roleType: ClaimsIdentity.DefaultRoleClaimType
+            );
+            return claimsIdentity;
         }
     }
 }

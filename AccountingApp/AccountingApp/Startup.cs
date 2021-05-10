@@ -16,17 +16,24 @@ namespace AccountingApp
     public class Startup
     {
         public IConfiguration Configuration { get; }
-        public MapperConfiguration _mapperConfiguration;
+        public AuthentificationOptions AuthOptions { get; } = new AuthentificationOptions();
+        public MapperConfiguration MapperConfiguration { get; }
 
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            _mapperConfiguration = new MapperConfiguration(cfg =>
+
+            Configuration
+                .GetSection("Authentification")
+                .Bind(AuthOptions);
+
+            AuthOptions.GenerateKey();
+
+            MapperConfiguration = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile<PLMappingProfile>();
                 cfg.AddProfile<BLLMappingProfile>();
             });
-
         }
 
         public void ConfigureServices(IServiceCollection services)
@@ -41,16 +48,16 @@ namespace AccountingApp
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
-                    options.RequireHttpsMetadata = false;
+                    options.RequireHttpsMetadata = true;
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
-                        ValidateIssuer = true,
-                        ValidIssuer = AuthentificationOptions.ISSUER,
-                        ValidateAudience = true,
-                        ValidAudience = AuthentificationOptions.AUDIENCE,
-                        ValidateLifetime = true,
-                        IssuerSigningKey = AuthentificationOptions.GetSymmetricSecurityKey(),
-                        ValidateIssuerSigningKey = true,
+                        ValidateIssuer = AuthOptions.ValidateIssuer,
+                        ValidateAudience = AuthOptions.ValidateAudience,
+                        ValidateLifetime = AuthOptions.ValidateLifeTime,
+                        ValidateIssuerSigningKey = AuthOptions.ValidateSigningKey,
+                        ValidIssuer = AuthOptions.Issuer,
+                        ValidAudience = AuthOptions.Audience,
+                        IssuerSigningKey = AuthOptions.SigningKey,
                     };
                 });
         }
@@ -59,9 +66,11 @@ namespace AccountingApp
         {
             var connection = Configuration.GetConnectionString("Default");
             builder.RegisterModule(new PLDependencyInjection(connection));
-            builder.Register(c => _mapperConfiguration.CreateMapper())
+            builder.Register(c => MapperConfiguration.CreateMapper())
                    .As<IMapper>()
                    .InstancePerDependency();
+
+            builder.RegisterInstance(AuthOptions).SingleInstance();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

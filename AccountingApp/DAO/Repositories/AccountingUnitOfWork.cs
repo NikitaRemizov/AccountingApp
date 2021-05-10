@@ -18,17 +18,6 @@ namespace DAO.Repositories
             _dbContext = dbContext;
         }
 
-        public IRepository<T> Repository<T>() where T : Model
-        {
-            var type = typeof(T);
-            if (!_repositories.ContainsKey(type))
-            {
-                throw new InvalidOperationException(
-                    $"There is no {nameof(IRepository)}<{typeof(T).Name}> registered in unit-of-work");
-            }
-            return (IRepository<T>)_repositories[type];
-        }
-
         public void Dispose()
         {
             if (_isDisposed)

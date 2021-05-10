@@ -43,7 +43,8 @@ namespace DAO.Repositories
 
         public async Task<User> Get(Guid id)
         {
-            return await Set.FindAsync(id);
+            var user = await Set.FindAsync(id);
+            return user ?? User.Empty;
         }
 
         public async Task<IEnumerable<User>> Find(Expression<Func<User, bool>> predicate)
