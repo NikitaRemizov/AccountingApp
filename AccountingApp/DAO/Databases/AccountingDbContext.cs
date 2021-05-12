@@ -46,6 +46,13 @@ namespace DAO.Databases
                 .Entity<BudgetChange>()
                 .Property(u => u.Id)
                 .HasDefaultValueSql("newid()");
+
+            modelBuilder
+                .Entity<BudgetChange>()
+                .HasOne(u => u.User)
+                .WithMany(b => b.BudgetChanges)
+                .HasForeignKey(b => b.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }
