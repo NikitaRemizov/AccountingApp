@@ -17,6 +17,8 @@ namespace DAO.Repositories
             $"'{nameof(UserId)}' is set to null. " +
             $"Before invoking any other methods set '{nameof(UserId)}' using '{nameof(SetUser)}' method");
 
+        protected virtual IQueryable<T> TableOfUser => Set.Where(m => m.UserId == UserId);
+
         public BudgetRepository(IAccountingUnitOfWork unitOfWork)
             : base(unitOfWork)
         {
@@ -33,17 +35,21 @@ namespace DAO.Repositories
             _userId = id;
         }
 
+        public override async Task<T> Get(Guid id)
+        {
+            return await TableOfUser
+                .Where(m => m.Id == id)
+                .FirstOrDefaultAsync();
+        }
+
         public override async Task<IEnumerable<T>> GetAll()
         {
-            return await Set
-                .Where(m => m.UserId == UserId)
-                .ToListAsync();
+            return await TableOfUser.ToListAsync();
         }
 
         public override async Task<IEnumerable<T>> Find(Expression<Func<T, bool>> predicate)
         {
-            return await Set
-                .Where(m => m.UserId == UserId)
+            return await TableOfUser
                 .Where(predicate)
                 .ToListAsync();
         }
@@ -56,8 +62,8 @@ namespace DAO.Repositories
 
         protected override async Task<T> FindAsync(Guid id)
         {
-            return await Set
-                .Where(m => m.Id == id && m.UserId == UserId)
+            return await TableOfUser
+                .Where(m => m.Id == id)
                 .FirstOrDefaultAsync();
         }
     }
