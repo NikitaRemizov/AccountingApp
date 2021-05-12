@@ -24,15 +24,20 @@ namespace DAO.Repositories
         {
         }
 
-        public async Task SetUser(Guid id)
+        public async Task SetUser(string email)
         {
-            var user = await _dbContext.Set<User>().FindAsync(id);
-            if (user is null)
+            var userId = await _dbContext.Set<User>()
+                .Where(u => u.Email.Equals(email, StringComparison.OrdinalIgnoreCase))
+                .Select(u => u.Id)
+                .FirstOrDefaultAsync();
+
+            if (userId == Guid.Empty)
             {
                 // TODO: change exception type
                 throw new Exception();
             }
-            _userId = id;
+
+            _userId = userId;
         }
 
         public override async Task<T> Get(Guid id)

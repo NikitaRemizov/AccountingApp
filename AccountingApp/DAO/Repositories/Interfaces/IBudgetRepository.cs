@@ -8,6 +8,6 @@ namespace DAO.Repositories.Interfaces
 {
     public interface IBudgetRepository<T> : IRepository<T> where T : BudgetModel
     {
-        Task SetUser(Guid id);
+        Task SetUser(string email);
     }
 }

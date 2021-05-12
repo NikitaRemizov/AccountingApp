@@ -20,9 +20,10 @@ namespace BLL.Services
             _mapper = mapper;
         }
 
-        public virtual async Task SetUser(Guid id)
+        public virtual async Task SetUser(string email)
         {
-            await _repository.SetUser(id);
+            // consider validating email (or do this in DAO)
+            await _repository.SetUser(email);
         }
 
         public virtual async Task Create(TDto dto)
