@@ -29,7 +29,7 @@ namespace BLL.Services
                 await _repository.Find(m => m.Date.Date >= from.Date && m.Date.Date <= to.Date));
         }
 
-        public virtual async Task<IEnumerable<BudgetChangeDTO>> GetOnDate(DateTime date)
+        public virtual async Task<IEnumerable<BudgetChangeDTO>> GetForDate(DateTime date)
         {
             return _mapper.Map<IEnumerable<BudgetChangeDTO>>(
                 await _repository.Find(m => m.Date.Date == date.Date));

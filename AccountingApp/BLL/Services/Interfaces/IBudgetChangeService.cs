@@ -10,6 +10,6 @@ namespace BLL.Services.Interfaces
         /// <param name="from">The inclusive lower bound date</param>
         /// <param name="to">The exclusive upper bound date</param>
         Task<IEnumerable<BudgetChangeDTO>> GetBetweenDates(DateTime from, DateTime to);
-        Task<IEnumerable<BudgetChangeDTO>> GetOnDate(DateTime date);
+        Task<IEnumerable<BudgetChangeDTO>> GetForDate(DateTime date);
     }
 }
