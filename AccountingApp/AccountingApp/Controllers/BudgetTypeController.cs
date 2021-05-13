@@ -1,21 +1,27 @@
-﻿using BLL.Services.Interfaces;
+﻿using BLL.DTO;
+using BLL.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace AccountingApp.Controllers
 {
     [ApiController]
     [Route("budgettype")]
-    public class BudgetTypeController : Controller
+    public class BudgetTypeController : BudgetController<BudgetTypeDTO>
     {
-        //public BudgetTypeController(IBudgetTypeService< service, )
-        //{
+        public override IBudgetTypeService<BudgetTypeDTO> Service { get; }
 
-        //}
-        //[HttpGet("/[controller]")]
-        //public 
+        public BudgetTypeController(IBudgetTypeService<BudgetTypeDTO> service)
+        {
+            Service = service;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            await InitializeUser();
+            return Ok(await Service.GetAll());
+        }
     }
 }

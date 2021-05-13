@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 
 namespace BLL.Services.Interfaces
 {
-    public interface IBudgetTypeService<T> : IBudgetService<T> where T : BudgetTypeDTO
+    public interface IBudgetTypeService<T> : IBudgetService<T> where T : DTO.BudgetTypeDTO
     {
-        Task<IEnumerable<BudgetTypeDTO>> GetAll();
+        Task<IEnumerable<DTO.BudgetTypeDTO>> GetAll();
     }
 }

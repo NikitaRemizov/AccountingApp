@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DAO.Models
 {
-    // TODO: probably delete navigational properties for user
-
     [Table("budgetTypes")]
     public class BudgetType : BudgetModel
     {

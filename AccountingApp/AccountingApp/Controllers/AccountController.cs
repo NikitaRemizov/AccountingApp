@@ -1,5 +1,4 @@
-﻿using AccountingApp.Models;
-using AccountingApp.Utils;
+﻿using AccountingApp.Utils;
 using AutoMapper;
 using BLL.DTO;
 using BLL.Services.Interfaces;
@@ -13,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace AccountingApp.Controllers
 {
+    // TODO: change return type if user is unauthorized
     [ApiController]
     public class AccountController : Controller
     {
@@ -36,27 +36,25 @@ namespace AccountingApp.Controllers
         }
 
         [HttpPost("/register")]
-        public async Task<IActionResult> Register(User user)
+        public async Task<IActionResult> Register(UserDTO user)
         {
-            var userDTO = Mapper.Map<UserDTO>(user);
-            if (await AccountService.IsRegistered(userDTO))
+            if (await AccountService.IsRegistered(user))
             {
                 return Conflict($"The user with this email is already registered");
             }
-            await AccountService.Register(userDTO);
+            await AccountService.Register(user);
             return await Login(user);
         }
 
         [HttpPost("/login")]
-        public async Task<IActionResult> Login(User user)
+        public async Task<IActionResult> Login(UserDTO user)
         {
-            var userDTO = Mapper.Map<UserDTO>(user);
-            var userId = await AccountService.VerifyCredentials(userDTO);
+            var userId = await AccountService.VerifyCredentials(user);
             if (userId is null)
             {
                 return BadRequest($"The Email or password is incorrect");
             }
-            return Token(userDTO);
+            return Token(user);
         }
 
         private IActionResult Token(UserDTO user)
@@ -100,7 +98,7 @@ namespace AccountingApp.Controllers
 
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Email, user.Email),
+                new Claim(ClaimTypes.Email, user.Email),
             };
             ClaimsIdentity claimsIdentity = new ClaimsIdentity(
                 claims: claims, 

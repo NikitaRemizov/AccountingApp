@@ -5,13 +5,13 @@ using DAO.Models;
 using DAO.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace BLL.Services
 {
     public class BudgetChangeService : BudgetService<BudgetChangeDTO, BudgetChange>, IBudgetChangeService<BudgetChangeDTO>
     {
-        public Guid? UserId { get; set; }
         private static readonly IEnumerable<BudgetChangeDTO> EmptyBugdetChanges = new List<BudgetChangeDTO>();
 
         public BudgetChangeService(IBudgetRepository<BudgetChange> repository, IMapper mapper)

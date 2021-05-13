@@ -8,10 +8,11 @@ namespace DAO.Models
     public class BudgetChange : BudgetModel
     {
         [Required]
+        [Column(TypeName = "date")]
         public DateTime Date { get; set; }
         [Required]
         public long Amount { get; set; }
-        [Required]
+        public Guid? BudgetTypeId { get; set; }
         public BudgetType BudgetType { get; set; }
     }
 }

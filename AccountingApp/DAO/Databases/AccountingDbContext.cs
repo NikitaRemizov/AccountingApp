@@ -39,8 +39,10 @@ namespace DAO.Databases
 
             modelBuilder
                 .Entity<BudgetType>()
-                .Property(u => u.Id)
-                .HasDefaultValueSql("newid()");
+                .HasOne(bt => bt.User)
+                .WithMany(u => u.BudgetTypes)
+                .HasForeignKey(bt => bt.UserId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder
                 .Entity<BudgetChange>()
@@ -49,9 +51,16 @@ namespace DAO.Databases
 
             modelBuilder
                 .Entity<BudgetChange>()
-                .HasOne(u => u.User)
-                .WithMany(b => b.BudgetChanges)
-                .HasForeignKey(b => b.UserId)
+                .HasOne(bc => bc.BudgetType)
+                .WithMany(bt => bt.BudgetChanges)
+                .HasForeignKey(bc => bc.BudgetTypeId)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder
+                .Entity<BudgetChange>()
+                .HasOne(bc => bc.User)
+                .WithMany(bt => bt.BudgetChanges)
+                .HasForeignKey(bc => bc.UserId)
                 .OnDelete(DeleteBehavior.NoAction);
         }
     }

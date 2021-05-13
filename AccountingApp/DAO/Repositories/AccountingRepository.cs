@@ -13,14 +13,19 @@ namespace DAO.Repositories
 {
     public abstract class AccountingRepository<T> : IRepository<T> where T : Model
     {
-        protected static readonly MapperConfiguration _mapperConfiguration = new MapperConfiguration(cfg =>
-        {
-            cfg.AddProfile<DAOModelsMapperProfile>();
-        });
-
+        protected static Func<T, T, T> _map;
         protected DbContext _dbContext;
-        private Action _dispose;
         protected virtual DbSet<T> Set => _dbContext.Set<T>();
+        private Action _dispose;
+
+        static AccountingRepository()
+        {
+            var mapperConfiguration = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile<DAOModelsMapperProfile>();
+            });
+            _map = mapperConfiguration.CreateMapper().Map;
+        }
 
         public AccountingRepository(IAccountingUnitOfWork unitOfWork)
         {
@@ -30,13 +35,12 @@ namespace DAO.Repositories
 
         public virtual async Task Update(T item)
         {
-            var itemToUpdate = await FindAsync(item.Id);
+            var itemToUpdate = await Set.FindAsync(item.Id);
             if (itemToUpdate is null)
             {
                 return;
             }
-            var mapper = _mapperConfiguration.CreateMapper();
-            mapper.Map(item, itemToUpdate);
+            _map(item, itemToUpdate);
         }
 
         public virtual async Task Save()
@@ -51,7 +55,7 @@ namespace DAO.Repositories
 
         public virtual async Task<T> Get(Guid id)
         {
-            return await FindAsync(id);
+            return await Set.FindAsync(id);
         }
 
         public virtual async Task<IEnumerable<T>> Find(Expression<Func<T, bool>> predicate)
@@ -66,7 +70,7 @@ namespace DAO.Repositories
 
         public virtual async Task Delete(Guid id)
         {
-            var itemToDelete = await FindAsync(id);
+            var itemToDelete = await Set.FindAsync(id);
             if (itemToDelete is null)
             {
                 return;
@@ -83,11 +87,6 @@ namespace DAO.Repositories
         void IRepository.SetDbContext(DbContext dbContext)
         {
             _dbContext = dbContext;
-        }
-
-        protected virtual async Task<T> FindAsync(Guid id)
-        {
-            return await Set.FindAsync(id);
         }
     }
 }

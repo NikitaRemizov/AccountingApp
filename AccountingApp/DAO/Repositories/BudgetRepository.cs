@@ -9,13 +9,23 @@ using System.Threading.Tasks;
 
 namespace DAO.Repositories
 {
+    // TODO: handle exceptions
     public abstract class BudgetRepository<T> : AccountingRepository<T>, IBudgetRepository<T> where T : BudgetModel
     {
         // TODO: change parent methods to check if the user data belongs to the user
         private Guid? _userId;
-        protected Guid UserId => _userId ?? throw new NullReferenceException(
-            $"'{nameof(UserId)}' is set to null. " +
-            $"Before invoking any other methods set '{nameof(UserId)}' using '{nameof(SetUser)}' method");
+        //protected Guid UserId => _userId ?? throw new NullReferenceException(
+        //    $"'{nameof(UserId)}' is set to null. " +
+        //    $"Before invoking any other methods set '{nameof(UserId)}' using '{nameof(SetUser)}' method");
+        protected Guid UserId { 
+            get
+            {
+                return _userId ?? throw new NullReferenceException(
+                    $"'{nameof(UserId)}' is set to null. " +
+                    $"Before invoking any other methods set '{nameof(UserId)}' using '{nameof(SetUser)}' method");
+            }
+        } 
+
 
         protected virtual IQueryable<T> TableOfUser => Set.Where(m => m.UserId == UserId);
 
@@ -27,7 +37,7 @@ namespace DAO.Repositories
         public async Task SetUser(string email)
         {
             var userId = await _dbContext.Set<User>()
-                .Where(u => u.Email.Equals(email, StringComparison.OrdinalIgnoreCase))
+                .Where(u => u.Email == email)
                 .Select(u => u.Id)
                 .FirstOrDefaultAsync();
 
@@ -63,13 +73,6 @@ namespace DAO.Repositories
         {
             user.UserId = UserId;
             return base.Create(user);
-        }
-
-        protected override async Task<T> FindAsync(Guid id)
-        {
-            return await TableOfUser
-                .Where(m => m.Id == id)
-                .FirstOrDefaultAsync();
         }
     }
 }

@@ -35,30 +35,15 @@ namespace BLL.Services
 
         public virtual async Task Delete(Guid id)
         {
-            var models = await _repository
-                .Find(m => m.Id == id);
-
-            var model = models.FirstOrDefault();
-            if (model is null)
-            {
-                return;
-            }
-
             await _repository.Delete(id);
             await _repository.Save();
         }
 
         public virtual async Task Update(TDto dto)
         {
-            var models = await _repository.Find(m => m.Id == dto.Id);
-            var model = models.FirstOrDefault();
-            if (model is null)
-            {
-                return;
-            }
-
-            _mapper.Map(dto, model);
+            var model = _mapper.Map<TModel>(dto);
             await _repository.Update(model);
+            await _repository.Save();
         }
 
         public void Dispose()

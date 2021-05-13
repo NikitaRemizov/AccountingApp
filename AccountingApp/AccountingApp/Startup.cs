@@ -89,8 +89,6 @@ namespace AccountingApp
             app.UseAuthentication();
             app.UseAuthorization();
 
-            // TODO: Use middlewware to get user id from jwt token and add it as parameter to the constructor of service
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

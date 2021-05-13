@@ -11,8 +11,6 @@ namespace BLL.Services
 {
     public class BudgetTypeService : BudgetService<BudgetTypeDTO, BudgetType>, IBudgetTypeService<BudgetTypeDTO>
     {
-        public Guid? UserId { get; set; }
-
         public BudgetTypeService(IBudgetRepository<BudgetType> repository, IMapper mapper)
             : base(repository, mapper)
         {
