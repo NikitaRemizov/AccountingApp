@@ -5,6 +5,7 @@ using BLL.DTO;
 using BLL.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -35,14 +36,6 @@ namespace AccountingApp.Controllers
         public virtual async Task<IActionResult> Create(TModel budgetModel)
         {
             // TODO: properly catch exceptions
-            try
-            {
-                await InitializeUser();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
 
             try
             {
@@ -58,7 +51,6 @@ namespace AccountingApp.Controllers
         [HttpDelete("{id}")]
         public virtual async Task<IActionResult> Delete(Guid id)
         {
-            await InitializeUser();
             await Service.Delete(id);
             return Ok();
         }
@@ -67,15 +59,42 @@ namespace AccountingApp.Controllers
         [ValidateModel]
         public virtual async Task<IActionResult> Update(TModel budgetModel)
         {
-            await InitializeUser();
             await Service.Update(Mapper.Map<TDto>(budgetModel));
             return Ok();
         }
 
-        protected async Task InitializeUser()
+        public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
+        {
+            if (context == null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            if (next == null)
+            {
+                throw new ArgumentNullException(nameof(next));
+            }
+
+            if (!await TryInitializeUser())
+            {
+                context.Result = StatusCode(500);
+                return;
+            }
+
+            await next();
+        }
+        protected async Task<bool> TryInitializeUser()
         {
             var userEmail = HttpContext.User.FindFirst(ClaimTypes.Email).Value;
-            await Service.SetUser(userEmail);
+            try
+            {
+                await Service.SetUser(userEmail);
+            }
+            catch (ArgumentException)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

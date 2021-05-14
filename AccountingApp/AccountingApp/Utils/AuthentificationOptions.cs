@@ -15,7 +15,7 @@ namespace AccountingApp.Utils
         public int Lifetime { get; set; }
         public bool ValidateIssuer => Issuer is not null;
         public bool ValidateAudience => Audience is not null;
-        public bool ValidateLifeTime => Lifetime != 0;
+        public bool ValidateLifeTime => Lifetime > 0;
         public bool ValidateSigningKey => SigningKey is not null;
         public SymmetricSecurityKey SigningKey { get; private set; }
 

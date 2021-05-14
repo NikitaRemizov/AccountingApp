@@ -14,7 +14,6 @@ using System.Threading.Tasks;
 
 namespace AccountingApp.Controllers
 {
-    // TODO: change return type if user is unauthorized
     [ApiController]
     [ValidateModel]
     public class AccountController : Controller

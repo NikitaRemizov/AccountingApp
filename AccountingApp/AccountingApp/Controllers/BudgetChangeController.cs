@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace AccountingApp.Controllers
 {
     [ApiController]
-    [Route("budgetchange")]
+    [Route("budget/change")]
     public class BudgetChangeController : BudgetController<BudgetChangeDTO, BudgetChange>
     {
         public override IBudgetChangeService<BudgetChangeDTO> Service { get; }
@@ -24,15 +24,13 @@ namespace AccountingApp.Controllers
         [HttpGet("fordate")]
         public async Task<IActionResult> Get([FromQuery]DateTime date)
         {
-            await InitializeUser();
             return Ok(Mapper.Map<IEnumerable<BudgetChange>>(
                 await Service.GetForDate(date)));
         }
 
         [HttpGet("betweendates")]
-        public async Task<IActionResult> Get([FromQuery]DateTime from, [FromQuery] DateTime to)
+        public async Task<IActionResult> Get([FromQuery]DateTime from, [FromQuery]DateTime to)
         {
-            await InitializeUser();
             return Ok(Mapper.Map<IEnumerable<BudgetChange>>(
                 await Service.GetBetweenDates(from, to)));
         }
