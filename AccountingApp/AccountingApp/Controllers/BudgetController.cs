@@ -1,4 +1,7 @@
-﻿using BLL.DTO;
+﻿using AccountingApp.Models;
+using AccountingApp.Models.Validation;
+using AutoMapper;
+using BLL.DTO;
 using BLL.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,22 +13,26 @@ namespace AccountingApp.Controllers
 {
     // TODO: check all possible combiantion of wrong fields in provided models
     [Authorize]
-    public abstract class BudgetController<T> : Controller where T : BudgetDTO
+    public abstract class BudgetController<TDto, TModel> : Controller where TDto : BudgetDTO where TModel : BudgetModel
     {
-        public virtual IBudgetService<T> Service { get; }
+        public virtual IBudgetService<TDto> Service { get; }
+        protected IMapper Mapper { get; }
 
-        public BudgetController(IBudgetService<T> service)
+        public BudgetController(IBudgetService<TDto> service, IMapper mapper)
         {
             Service = service;
+            Mapper = mapper;
         }
 
-        protected BudgetController()
+        protected BudgetController(IMapper mapper)
         {
+            Mapper = mapper;
         }
 
         // TODO: solve the problem with datetime format in json (probably have to crete PL model and use model attributes)
         [HttpPost]
-        public virtual async Task<IActionResult> Create(T budgetDto)
+        [ValidateModel]
+        public virtual async Task<IActionResult> Create(TModel budgetModel)
         {
             // TODO: properly catch exceptions
             try
@@ -39,7 +46,7 @@ namespace AccountingApp.Controllers
 
             try
             {
-                await Service.Create(budgetDto);
+                await Service.Create(Mapper.Map<TDto>(budgetModel));
             }
             catch (Exception)
             {
@@ -57,10 +64,11 @@ namespace AccountingApp.Controllers
         }
 
         [HttpPut]
-        public virtual async Task<IActionResult> Update(T budgetDto)
+        [ValidateModel]
+        public virtual async Task<IActionResult> Update(TModel budgetModel)
         {
             await InitializeUser();
-            await Service.Update(budgetDto);
+            await Service.Update(Mapper.Map<TDto>(budgetModel));
             return Ok();
         }
 

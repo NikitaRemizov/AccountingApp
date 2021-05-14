@@ -1,4 +1,6 @@
-﻿using AccountingApp.Utils;
+﻿using AccountingApp.Models;
+using AccountingApp.Models.Validation;
+using AccountingApp.Utils;
 using AutoMapper;
 using BLL.DTO;
 using BLL.Services.Interfaces;
@@ -14,14 +16,9 @@ namespace AccountingApp.Controllers
 {
     // TODO: change return type if user is unauthorized
     [ApiController]
+    [ValidateModel]
     public class AccountController : Controller
     {
-        private List<UserDTO> people = new List<UserDTO>
-        {
-            new UserDTO { Email="admin@gmail.com", Password="12345", },
-            new UserDTO { Email="qwerty@gmail.com", Password="55555", }
-        };
-
         public IAccountService AccountService { get; }
         public IMapper Mapper { get; }
         public AuthentificationOptions AuthOptions { get; }
@@ -36,20 +33,22 @@ namespace AccountingApp.Controllers
         }
 
         [HttpPost("/register")]
-        public async Task<IActionResult> Register(UserDTO user)
+        public async Task<IActionResult> Register(User user)
         {
-            if (await AccountService.IsRegistered(user))
+            var userDto = Mapper.Map<UserDTO>(user);
+            if (await AccountService.IsRegistered(userDto))
             {
                 return Conflict($"The user with this email is already registered");
             }
-            await AccountService.Register(user);
+            await AccountService.Register(userDto);
             return await Login(user);
         }
 
         [HttpPost("/login")]
-        public async Task<IActionResult> Login(UserDTO user)
+        public async Task<IActionResult> Login(User user)
         {
-            var userId = await AccountService.VerifyCredentials(user);
+            var userDto = Mapper.Map<UserDTO>(user);
+            var userId = await AccountService.VerifyCredentials(userDto);
             if (userId is null)
             {
                 return BadRequest($"The Email or password is incorrect");
@@ -57,7 +56,7 @@ namespace AccountingApp.Controllers
             return Token(user);
         }
 
-        private IActionResult Token(UserDTO user)
+        private IActionResult Token(User user)
         {
             var identity = GetIdentity(user);
             if (identity == null)
@@ -89,7 +88,7 @@ namespace AccountingApp.Controllers
             return Ok(response);
         }
 
-        private static ClaimsIdentity GetIdentity(UserDTO user)
+        private static ClaimsIdentity GetIdentity(User user)
         {
             if (user is null)
             {
