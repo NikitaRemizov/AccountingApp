@@ -6,7 +6,6 @@ using System.Linq;
 
 namespace DAO.Repositories
 {
-    // TODO: all operations must include BudgetType information
     // TODO: EVERYWHERE add special values instead of nulls
     // TODO: handle case when budgetTypeId is incorrect and think about other such cases
     public class BudgetChangeRepository : BudgetRepository<BudgetChange>

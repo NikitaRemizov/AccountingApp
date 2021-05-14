@@ -9,14 +9,9 @@ using System.Threading.Tasks;
 
 namespace DAO.Repositories
 {
-    // TODO: handle exceptions
     public abstract class BudgetRepository<T> : AccountingRepository<T>, IBudgetRepository<T> where T : BudgetModel
     {
-        // TODO: change parent methods to check if the user data belongs to the user
         private Guid? _userId;
-        //protected Guid UserId => _userId ?? throw new NullReferenceException(
-        //    $"'{nameof(UserId)}' is set to null. " +
-        //    $"Before invoking any other methods set '{nameof(UserId)}' using '{nameof(SetUser)}' method");
         protected Guid UserId { 
             get
             {
@@ -43,8 +38,8 @@ namespace DAO.Repositories
 
             if (userId == Guid.Empty)
             {
-                // TODO: change exception type
-                throw new Exception();
+                throw new ArgumentException(
+                    $"The provided email doesn't belong to any user", nameof(email));
             }
 
             _userId = userId;
