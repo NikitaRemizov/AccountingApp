@@ -27,9 +27,9 @@ namespace BLL.Services
             GC.SuppressFinalize(this);
         }
 
-        public async Task<Guid?> GetId(UserDTO user)
+        public async Task<Guid> GetId(UserDTO user)
         {
-            return (await GetUserWithEmail(user.Email))?.Id;
+            return (await GetUserWithEmail(user.Email))?.Id ?? Guid.Empty;
         }
 
         public async Task<Guid?> VerifyCredentials(UserDTO user)
@@ -47,10 +47,11 @@ namespace BLL.Services
             return userWithSameEmail.Id;
         }
 
-        public async Task Register(UserDTO user)
+        public async Task<Guid> Register(UserDTO user)
         {
-            await _repository.Create(_mapper.Map<User>(user));
+            var createdUser = await _repository.Create(_mapper.Map<User>(user));
             await _repository.Save();
+            return createdUser.Id;
         }
 
         public async Task<bool> IsRegistered(UserDTO user)

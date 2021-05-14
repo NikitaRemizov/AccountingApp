@@ -63,11 +63,10 @@ namespace DAO.Repositories
                 .Where(predicate)
                 .ToListAsync();
         }
-
-        public override Task Create(T user)
+        public override async Task<T> Create(T item)
         {
-            user.UserId = UserId;
-            return base.Create(user);
+            item.UserId = UserId;
+            return (await Set.AddAsync(item)).Entity;
         }
     }
 }

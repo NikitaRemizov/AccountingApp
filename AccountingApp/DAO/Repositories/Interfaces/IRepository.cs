@@ -18,8 +18,8 @@ namespace DAO.Repositories.Interfaces
         Task<IEnumerable<T>> GetAll();
         Task<IEnumerable<T>> Find(Expression<Func<T, bool>> predicate);
         Task<T> Get(Guid id);
-        Task Create(T user);
-        Task Update(T user);
-        Task Delete(Guid id);
+        Task<T> Create(T user);
+        Task<Guid> Update(T user);
+        Task<Guid> Delete(Guid id);
     }
 }

@@ -12,9 +12,8 @@ using System.Threading.Tasks;
 
 namespace AccountingApp.Controllers
 {
-    // TODO: check all possible combiantion of wrong fields in provided models
     [Authorize]
-    public abstract class BudgetController<TDto, TModel> : Controller where TDto : BudgetDTO where TModel : BudgetModel
+    public abstract class BudgetController<TDto, TModel> : AccountingController where TDto : BudgetDTO where TModel : BudgetModel
     {
         public virtual IBudgetService<TDto> Service { get; }
         protected IMapper Mapper { get; }
@@ -30,28 +29,26 @@ namespace AccountingApp.Controllers
             Mapper = mapper;
         }
 
-        // TODO: solve the problem with datetime format in json (probably have to crete PL model and use model attributes)
         [HttpPost]
         [ValidateModel]
         public virtual async Task<IActionResult> Create(TModel budgetModel)
         {
-            // TODO: properly catch exceptions
-
-            try
+            var createdItemId = await Service.Create(Mapper.Map<TDto>(budgetModel));
+            if (createdItemId == Guid.Empty)
             {
-                await Service.Create(Mapper.Map<TDto>(budgetModel));
+                return NotFound();
             }
-            catch (Exception)
-            {
-                throw;
-            }
-            return Ok();
+            return Ok(new { id = createdItemId });
         }
 
         [HttpDelete("{id}")]
         public virtual async Task<IActionResult> Delete(Guid id)
         {
-            await Service.Delete(id);
+            var deletedItemId = await Service.Delete(id);
+            if (deletedItemId == Guid.Empty)
+            {
+                return NotFound();
+            }
             return Ok();
         }
 
@@ -59,7 +56,11 @@ namespace AccountingApp.Controllers
         [ValidateModel]
         public virtual async Task<IActionResult> Update(TModel budgetModel)
         {
-            await Service.Update(Mapper.Map<TDto>(budgetModel));
+            var updatedItemId = await Service.Update(Mapper.Map<TDto>(budgetModel));
+            if (updatedItemId == Guid.Empty)
+            {
+                return NotFound();
+            }
             return Ok();
         }
 
@@ -77,12 +78,18 @@ namespace AccountingApp.Controllers
 
             if (!await TryInitializeUser())
             {
-                context.Result = StatusCode(500);
+                context.Result = StatusCode(500, "Unable to find authentificated user");
                 return;
             }
 
             await next();
         }
+
+        new public virtual NotFoundObjectResult NotFound()
+        {
+            return NotFound(WrapError("The provided id does not exist"));
+        }
+
         protected async Task<bool> TryInitializeUser()
         {
             var userEmail = HttpContext.User.FindFirst(ClaimTypes.Email).Value;
@@ -96,5 +103,6 @@ namespace AccountingApp.Controllers
             }
             return true;
         }
+
     }
 }

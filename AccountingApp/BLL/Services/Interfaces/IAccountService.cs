@@ -6,9 +6,9 @@ namespace BLL.Services.Interfaces
 {
     public interface IAccountService : IDisposable
     {
-        Task<Guid?> GetId(UserDTO user);
+        Task<Guid> GetId(UserDTO user);
         Task<bool> IsRegistered(UserDTO user);
-        Task Register(UserDTO user);
+        Task<Guid> Register(UserDTO user);
         public Task<Guid?> VerifyCredentials(UserDTO user);
     }
 }

@@ -16,7 +16,7 @@ namespace AccountingApp.Controllers
 {
     [ApiController]
     [ValidateModel]
-    public class AccountController : Controller
+    public class AccountController : AccountingController
     {
         public IAccountService AccountService { get; }
         public IMapper Mapper { get; }
@@ -37,9 +37,12 @@ namespace AccountingApp.Controllers
             var userDto = Mapper.Map<UserDTO>(user);
             if (await AccountService.IsRegistered(userDto))
             {
-                return Conflict($"The user with this email is already registered");
+                return Conflict(WrapError($"The user with this email is already registered"));
             }
-            await AccountService.Register(userDto);
+            if (await AccountService.Register(userDto) == Guid.Empty)
+            {
+                return StatusCode(500, WrapError("Couldn't register new user"));
+            }
             return await Login(user);
         }
 
@@ -50,7 +53,7 @@ namespace AccountingApp.Controllers
             var userId = await AccountService.VerifyCredentials(userDto);
             if (userId is null)
             {
-                return BadRequest($"The Email or password is incorrect");
+                return BadRequest(WrapError($"The Email or password is incorrect"));
             }
             return Token(user);
         }
@@ -60,7 +63,7 @@ namespace AccountingApp.Controllers
             var identity = GetIdentity(user);
             if (identity == null)
             {
-                return BadRequest(new { errorText = "Provided invalid identity information" });
+                return BadRequest(WrapError("Provided invalid identity information"));
             }
 
             var now = DateTime.UtcNow;

@@ -22,28 +22,30 @@ namespace BLL.Services
 
         public virtual async Task SetUser(string email)
         {
-            // consider validating email (or do this in DAO)
             await _repository.SetUser(email);
         }
 
-        public virtual async Task Create(TDto dto)
+        public virtual async Task<Guid> Create(TDto dto)
         {
             var model = _mapper.Map<TModel>(dto);
-            await _repository.Create(model);
+            var createdModel = await _repository.Create(model);
             await _repository.Save();
+            return createdModel.Id;
         }
 
-        public virtual async Task Delete(Guid id)
+        public virtual async Task<Guid> Delete(Guid id)
         {
-            await _repository.Delete(id);
+            var deletedItemId = await _repository.Delete(id);
             await _repository.Save();
+            return deletedItemId;
         }
 
-        public virtual async Task Update(TDto dto)
+        public virtual async Task<Guid> Update(TDto dto)
         {
             var model = _mapper.Map<TModel>(dto);
-            await _repository.Update(model);
+            var updatedItemId = await _repository.Update(model);
             await _repository.Save();
+            return updatedItemId;
         }
 
         public void Dispose()

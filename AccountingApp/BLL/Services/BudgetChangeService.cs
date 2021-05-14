@@ -3,6 +3,7 @@ using BLL.DTO;
 using BLL.Services.Interfaces;
 using DAO.Models;
 using DAO.Repositories.Interfaces;
+using DAO.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,5 +35,33 @@ namespace BLL.Services
             return _mapper.Map<IEnumerable<BudgetChangeDTO>>(
                 await _repository.Find(m => m.Date.Date == date.Date));
         }
+
+        public override async Task<Guid> Create(BudgetChangeDTO dto)
+        {
+            return await ExecuteAndCheckIfBudgetTypeIsCorrect(() => base.Create(dto));
+        }
+
+        public override async Task<Guid> Update(BudgetChangeDTO dto)
+        {
+            return await ExecuteAndCheckIfBudgetTypeIsCorrect(() => base.Update(dto));
+        }
+        private static async Task<Guid> ExecuteAndCheckIfBudgetTypeIsCorrect(Func<Task<Guid>> func)
+        {
+            if (func is null)
+            {
+                throw new ArgumentException(
+                    "The function to execute is not provided", nameof(func));
+            }
+
+            try
+            {
+                return await func();
+            }
+            catch (InvalidEntityException)
+            {
+                return default;
+            }
+        }
+
     }
 }

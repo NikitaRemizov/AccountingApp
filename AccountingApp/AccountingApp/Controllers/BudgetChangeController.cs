@@ -34,5 +34,10 @@ namespace AccountingApp.Controllers
             return Ok(Mapper.Map<IEnumerable<BudgetChange>>(
                 await Service.GetBetweenDates(from, to)));
         }
+
+        public override NotFoundObjectResult NotFound()
+        {
+            return NotFound(WrapError($"The incorrect {nameof(BudgetChange)} Id or {nameof(BudgetType)}Id"));
+        }
     }
 }

@@ -7,8 +7,8 @@ namespace BLL.Services.Interfaces
     public interface IBudgetService<T> : IDisposable where T : BudgetDTO
     {
         Task SetUser(string email);
-        Task Create(T item);
-        Task Update(T item);
-        Task Delete(Guid id);
+        Task<Guid> Create(T item);
+        Task<Guid> Update(T item);
+        Task<Guid> Delete(Guid id);
     }
 }

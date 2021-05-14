@@ -33,14 +33,15 @@ namespace DAO.Repositories
             _dispose = unitOfWork.Dispose;
         }
 
-        public virtual async Task Update(T item)
+        public virtual async Task<Guid> Update(T item)
         {
             var itemToUpdate = await Set.FindAsync(item.Id);
             if (itemToUpdate is null)
             {
-                return;
+                return Guid.Empty;
             }
             _map(item, itemToUpdate);
+            return itemToUpdate.Id;
         }
 
         public virtual async Task Save()
@@ -63,19 +64,20 @@ namespace DAO.Repositories
             return await Set.Where(predicate).ToListAsync();
         }
 
-        public virtual async Task Create(T user)
+        public virtual async Task<T> Create(T item)
         {
-            await Set.AddAsync(user);
+            return (await Set.AddAsync(item)).Entity;
         }
 
-        public virtual async Task Delete(Guid id)
+        public virtual async Task<Guid> Delete(Guid id)
         {
             var itemToDelete = await Set.FindAsync(id);
             if (itemToDelete is null)
             {
-                return;
+                return Guid.Empty;
             }
             Set.Remove(itemToDelete);
+            return itemToDelete.Id;
         }
 
         public void Dispose()

@@ -2,12 +2,12 @@
 using DAO.Repositories.Interfaces;
 using DAO.Utils;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DAO.Repositories
 {
-    // TODO: EVERYWHERE add special values instead of nulls
-    // TODO: handle case when budgetTypeId is incorrect and think about other such cases
     public class BudgetChangeRepository : BudgetRepository<BudgetChange>
     {
         protected override IQueryable<BudgetChange> TableOfUser => Set
@@ -18,6 +18,19 @@ namespace DAO.Repositories
         public BudgetChangeRepository(IAccountingUnitOfWork unitOfWork) 
             : base(unitOfWork)
         {
+        }
+
+        public override async Task Save()
+        {
+            try
+            {
+                await base.Save();
+            }
+            catch (Microsoft.EntityFrameworkCore.DbUpdateException)
+            {
+                throw new InvalidEntityException(
+                    $"Can not create BudgetChange entity with non existing BudgetType. Specify correct BudgetType");
+            }
         }
     }
 }
