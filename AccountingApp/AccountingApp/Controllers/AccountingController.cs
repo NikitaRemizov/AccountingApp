@@ -8,5 +8,10 @@ namespace AccountingApp.Controllers
         {
             return new { error = message };
         }
+
+        protected virtual BadRequestObjectResult InvalidObject()
+        {
+            return BadRequest(WrapError("Invalid object provided"));
+        }
     }
 }

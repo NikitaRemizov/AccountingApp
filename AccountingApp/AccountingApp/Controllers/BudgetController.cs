@@ -15,6 +15,11 @@ namespace AccountingApp.Controllers
     [Authorize]
     public abstract class BudgetController<TDto, TModel> : AccountingController where TDto : BudgetDTO where TModel : BudgetModel
     {
+        public class IdResponse 
+        {
+            public Guid Id { get; set; }
+        }
+
         public virtual IBudgetService<TDto> Service { get; }
         protected IMapper Mapper { get; }
 
@@ -33,12 +38,16 @@ namespace AccountingApp.Controllers
         [ValidateModel]
         public virtual async Task<IActionResult> Create(TModel budgetModel)
         {
+            if (budgetModel is null)
+            {
+                return InvalidObject();
+            }
             var createdItemId = await Service.Create(Mapper.Map<TDto>(budgetModel));
             if (createdItemId == Guid.Empty)
             {
                 return NotFound();
             }
-            return Ok(new { id = createdItemId });
+            return Ok(new IdResponse{ Id = createdItemId });
         }
 
         [HttpDelete("{id}")]
@@ -56,6 +65,10 @@ namespace AccountingApp.Controllers
         [ValidateModel]
         public virtual async Task<IActionResult> Update(TModel budgetModel)
         {
+            if (budgetModel is null)
+            {
+                return InvalidObject();
+            }
             var updatedItemId = await Service.Update(Mapper.Map<TDto>(budgetModel));
             if (updatedItemId == Guid.Empty)
             {

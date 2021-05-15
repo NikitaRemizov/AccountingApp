@@ -22,6 +22,12 @@ namespace AccountingApp.Controllers
         public IMapper Mapper { get; }
         public AuthentificationOptions AuthOptions { get; }
 
+        public class JwtTokenResponse
+        {
+            public string AccessToken { get; init; }
+            public string Email { get; init; }
+        }
+
         public AccountController(IAccountService accountService,
                                  IMapper mapper,
                                  AuthentificationOptions authOptions)
@@ -34,11 +40,17 @@ namespace AccountingApp.Controllers
         [HttpPost("/register")]
         public async Task<IActionResult> Register(User user)
         {
+            if (user is null)
+            {
+                return InvalidObject();
+            }
+
             var userDto = Mapper.Map<UserDTO>(user);
             if (await AccountService.IsRegistered(userDto))
             {
                 return Conflict(WrapError($"The user with this email is already registered"));
             }
+
             if (await AccountService.Register(userDto) == Guid.Empty)
             {
                 return StatusCode(500, WrapError("Couldn't register new user"));
@@ -49,6 +61,11 @@ namespace AccountingApp.Controllers
         [HttpPost("/login")]
         public async Task<IActionResult> Login(User user)
         {
+            if (user is null)
+            {
+                return InvalidObject();
+            }
+
             var userDto = Mapper.Map<UserDTO>(user);
             var userId = await AccountService.VerifyCredentials(userDto);
             if (userId is null)
@@ -63,7 +80,7 @@ namespace AccountingApp.Controllers
             var identity = GetIdentity(user);
             if (identity == null)
             {
-                return BadRequest(WrapError("Provided invalid identity information"));
+                return InvalidObject();
             }
 
             var now = DateTime.UtcNow;
@@ -81,10 +98,10 @@ namespace AccountingApp.Controllers
 
             var encodedJwtToken = new JwtSecurityTokenHandler().WriteToken(jwtToken);
 
-            var response = new
+            var response = new JwtTokenResponse
             {
-                access_token = encodedJwtToken,
-                username = identity.Name
+                AccessToken = encodedJwtToken,
+                Email = identity.FindFirst(ClaimTypes.Email).Value
             };
 
             return Ok(response);
