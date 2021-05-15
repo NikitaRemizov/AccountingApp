@@ -1,7 +1,7 @@
 ﻿using AccountingApp.Models;
 using AutoMapper;
-using BLL.DTO;
-using BLL.Services.Interfaces;
+using AccountingApp.BLL.DTO;
+using AccountingApp.BLL.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;

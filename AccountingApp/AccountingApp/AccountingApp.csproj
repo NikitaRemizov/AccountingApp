@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BLL\BLL.csproj" />
+    <ProjectReference Include="..\AccountingApp.BLL\AccountingApp.BLL.csproj" />
   </ItemGroup>
 
 </Project>

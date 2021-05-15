@@ -1,8 +1,8 @@
 ﻿using AccountingApp.Models;
 using AccountingApp.Models.Validation;
 using AutoMapper;
-using BLL.DTO;
-using BLL.Services.Interfaces;
+using AccountingApp.BLL.DTO;
+using AccountingApp.BLL.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;

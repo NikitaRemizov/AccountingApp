@@ -2,7 +2,6 @@
 
 namespace AccountingApp.Models
 {
-    // TODO: Create resourse file containing error messages
     public class User
     {
         [Required(ErrorMessage = "The field Email must be set")]

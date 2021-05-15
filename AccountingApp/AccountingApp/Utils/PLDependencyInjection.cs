@@ -1,7 +1,7 @@
 ﻿using Autofac;
-using BLL.DTO;
-using BLL.Services;
-using BLL.Services.Interfaces;
+using AccountingApp.BLL.DTO;
+using AccountingApp.BLL.Services;
+using AccountingApp.BLL.Services.Interfaces;
 
 namespace AccountingApp.Utils
 {
@@ -16,7 +16,7 @@ namespace AccountingApp.Utils
 
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterModule(new BLL.Utils.BLLDependencyInjection(_connectionString));
+            builder.RegisterModule(new AccountingApp.BLL.Utils.BLLDependencyInjection(_connectionString));
             builder.RegisterType<AccountService>().As<IAccountService>();
             builder.RegisterType<BudgetTypeService>().As<IBudgetTypeService<BudgetTypeDTO>>();
             builder.RegisterType<BudgetChangeService>().As<IBudgetChangeService<BudgetChangeDTO>>();

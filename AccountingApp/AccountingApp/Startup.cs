@@ -1,7 +1,7 @@
 using AccountingApp.Utils;
 using Autofac;
 using AutoMapper;
-using BLL.Utils;
+using AccountingApp.BLL.Utils;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
