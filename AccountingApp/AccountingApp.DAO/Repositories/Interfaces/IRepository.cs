@@ -4,13 +4,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using System.Runtime.CompilerServices;
 
 namespace AccountingApp.DAO.Repositories.Interfaces
 {
     public interface IRepository : IDisposable
     {
         Task Save();
-        internal void SetDbContext(DbContext dbContext);
+        void SetDbContext(DbContext dbContext);
     }
 
     public interface IRepository<T> : IRepository where T : Model

@@ -27,11 +27,6 @@ namespace AccountingApp.BLL.Services
             GC.SuppressFinalize(this);
         }
 
-        public async Task<Guid> GetId(UserDTO user)
-        {
-            return (await GetUserWithEmail(user.Email))?.Id ?? Guid.Empty;
-        }
-
         public async Task<Guid?> VerifyCredentials(UserDTO user)
         {
             var userWithSameEmail = await GetUserWithEmail(user.Email);
@@ -50,6 +45,10 @@ namespace AccountingApp.BLL.Services
         public async Task<Guid> Register(UserDTO user)
         {
             var createdUser = await _repository.Create(_mapper.Map<User>(user));
+            if (createdUser is null)
+            {
+                return Guid.Empty;
+            }
             await _repository.Save();
             return createdUser.Id;
         }

@@ -29,6 +29,10 @@ namespace AccountingApp.BLL.Services
         {
             var model = _mapper.Map<TModel>(dto);
             var createdModel = await _repository.Create(model);
+            if (createdModel is null)
+            {
+                return Guid.Empty;
+            }
             await _repository.Save();
             return createdModel.Id;
         }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace AccountingApp.BLL.Utils
 {
-    internal class Password
+    public class Password
     {
         private const int HashSize = 20;
         private const int SaltSize = 16;

@@ -27,4 +27,9 @@
     <ProjectReference Include="..\AccountingApp\AccountingApp.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Repositories\" />
+    <Folder Include="Utils\" />
+  </ItemGroup>
+
 </Project>
