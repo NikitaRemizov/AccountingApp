@@ -34,7 +34,7 @@ namespace AccountingApp.BLL.Services
             {
                 return null;
             }
-            var password = new Password(user.Password, userWithSameEmail.Password).StoredHash;
+            var password = new Password(user.Password, userWithSameEmail.Password).Hash;
             if (!userWithSameEmail.Password.SequenceEqual(password))
             {
                 return null;

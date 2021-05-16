@@ -11,7 +11,7 @@ namespace AccountingApp.DAO.Repositories.Interfaces
     public interface IRepository : IDisposable
     {
         Task Save();
-        void SetDbContext(DbContext dbContext);
+        internal void SetDbContext(DbContext dbContext);
     }
 
     public interface IRepository<T> : IRepository where T : Model
@@ -19,8 +19,8 @@ namespace AccountingApp.DAO.Repositories.Interfaces
         Task<IEnumerable<T>> GetAll();
         Task<IEnumerable<T>> Find(Expression<Func<T, bool>> predicate);
         Task<T> Get(Guid id);
-        Task<T> Create(T user);
-        Task<Guid> Update(T user);
+        Task<T> Create(T item);
+        Task<Guid> Update(T item);
         Task<Guid> Delete(Guid id);
     }
 }

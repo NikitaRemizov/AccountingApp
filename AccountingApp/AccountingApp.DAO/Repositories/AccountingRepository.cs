@@ -15,6 +15,7 @@ namespace AccountingApp.DAO.Repositories
     {
         protected static Func<T, T, T> _map;
         protected DbContext _dbContext;
+        protected virtual IQueryable<T> SetAsQueryable => _dbContext.Set<T>();
         protected virtual DbSet<T> Set => _dbContext.Set<T>();
         private Action _dispose;
 
@@ -35,7 +36,7 @@ namespace AccountingApp.DAO.Repositories
 
         public virtual async Task<Guid> Update(T item)
         {
-            var itemToUpdate = await Set.FindAsync(item.Id);
+            var itemToUpdate = await Get(item.Id);
             if (itemToUpdate is null)
             {
                 return Guid.Empty;
@@ -51,17 +52,19 @@ namespace AccountingApp.DAO.Repositories
 
         public virtual async Task<IEnumerable<T>> GetAll()
         {
-            return await Set.ToListAsync();
+            return await SetAsQueryable.ToListAsync();
         }
 
         public virtual async Task<T> Get(Guid id)
         {
-            return await Set.FindAsync(id);
+            return await SetAsQueryable
+                .Where(b => b.Id == id)
+                .FirstOrDefaultAsync();
         }
 
         public virtual async Task<IEnumerable<T>> Find(Expression<Func<T, bool>> predicate)
         {
-            return await Set.Where(predicate).ToListAsync();
+            return await SetAsQueryable.Where(predicate).ToListAsync();
         }
 
         public virtual async Task<T> Create(T item)
@@ -71,7 +74,7 @@ namespace AccountingApp.DAO.Repositories
 
         public virtual async Task<Guid> Delete(Guid id)
         {
-            var itemToDelete = await Set.FindAsync(id);
+            var itemToDelete = await Get(id);
             if (itemToDelete is null)
             {
                 return Guid.Empty;

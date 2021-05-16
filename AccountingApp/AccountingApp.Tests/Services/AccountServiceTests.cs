@@ -119,7 +119,7 @@ namespace AccountingApp.Tests.Services
         [Fact]
         public void VerifyCredentials_RepositoryContainsRequestedUserAndPasswordCorrect_ReturnsTrue()
         {
-            FakeUser.Password = new Password(FakeUserDTO.Password).StoredHash;
+            FakeUser.Password = new Password(FakeUserDTO.Password).Hash;
             RepositoryMock
                 .Setup(r => r.Find(It.IsAny<Expression<Func<User, bool>>>()))
                 .ReturnsAsync(() => new List<User> { FakeUser });
@@ -132,7 +132,7 @@ namespace AccountingApp.Tests.Services
         [Fact]
         public void VerifyCredentials_RepositoryContainsRequestedUserAndPasswordIsWrong_ReturnsTrue()
         {
-            FakeUser.Password = new Password(FakeUserDTO.Password).StoredHash;
+            FakeUser.Password = new Password(FakeUserDTO.Password).Hash;
             FakeUser.Password[0]++;
             RepositoryMock
                 .Setup(r => r.Find(It.IsAny<Expression<Func<User, bool>>>()))
@@ -146,7 +146,7 @@ namespace AccountingApp.Tests.Services
         [Fact]
         public void VerifyCredentials_RepositoryDoesNotContainsRequestedUser_ReturnsTrue()
         {
-            FakeUser.Password = new Password(FakeUserDTO.Password).StoredHash;
+            FakeUser.Password = new Password(FakeUserDTO.Password).Hash;
             RepositoryMock
                 .Setup(r => r.Find(It.IsAny<Expression<Func<User, bool>>>()))
                 .ReturnsAsync(() => new List<User> { });

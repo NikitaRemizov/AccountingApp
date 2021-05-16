@@ -11,7 +11,7 @@ namespace AccountingApp.BLL.Utils
             CreateMap<UserDTO, User>()
                 .ForMember(user => user.Password, opt =>
                 {
-                    opt.MapFrom(user => new Password(user.Password).StoredHash);
+                    opt.MapFrom(user => new Password(user.Password).Hash);
                 });
 
             CreateMap<BudgetType, BudgetTypeDTO>()

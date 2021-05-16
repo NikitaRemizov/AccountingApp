@@ -2,7 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("AccountingApp.Tests")]
 namespace AccountingApp.DAO.Repositories
 {
     internal class AccountingUnitOfWork : IAccountingUnitOfWork

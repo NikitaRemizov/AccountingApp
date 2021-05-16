@@ -1,20 +1,17 @@
 ﻿using System;
 using System.Linq;
 using System.Security.Cryptography;
-using System.Text;
 
 namespace AccountingApp.BLL.Utils
 {
     public class Password
     {
-        private const int HashSize = 20;
-        private const int SaltSize = 16;
+        public const int HashSize = 20;
+        public const int SaltSize = 16;
+        public const int StoredHashSize = HashSize + SaltSize;
         private const int NumberOfHashInterations = 10000;
-        private const int StoredHashSize = HashSize + SaltSize;
 
-        public byte[] Hash => _hash.ToArray();
-        public byte[] Salt => _salt.ToArray();
-        public byte[] StoredHash => _salt.Concat(_hash).ToArray();
+        public byte[] Hash => _salt.Concat(_hash).ToArray();
 
         private byte[] _hash;
         private byte[] _salt;
@@ -34,11 +31,6 @@ namespace AccountingApp.BLL.Utils
             _salt = GetSalt(hashToGetSaltFrom);
             using var deriveBytes = new Rfc2898DeriveBytes(password, _salt, NumberOfHashInterations);
             _hash = deriveBytes.GetBytes(HashSize);
-        }
-
-        public bool IsMatching(Password password)
-        {
-            return _salt.SequenceEqual(password._salt) && _hash.SequenceEqual(password._hash);
         }
 
         private static byte[] GetSalt(byte[] storedHash)

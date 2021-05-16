@@ -19,10 +19,10 @@ namespace AccountingApp.DAO.Repositories
                     $"'{nameof(UserId)}' is set to null. " +
                     $"Before invoking any other methods set current user using '{nameof(SetUser)}' method");
             }
-        } 
+        }
 
 
-        protected virtual IQueryable<T> TableOfUser => Set.Where(m => m.UserId == UserId);
+        protected override IQueryable<T> SetAsQueryable => base.SetAsQueryable.Where(m => m.UserId == UserId);
 
         public BudgetRepository(IAccountingUnitOfWork unitOfWork)
             : base(unitOfWork)
@@ -38,6 +38,7 @@ namespace AccountingApp.DAO.Repositories
 
             if (userId == Guid.Empty)
             {
+                _userId = null;
                 throw new ArgumentException(
                     $"The provided email doesn't belong to any user", nameof(email));
             }
@@ -45,28 +46,10 @@ namespace AccountingApp.DAO.Repositories
             _userId = userId;
         }
 
-        public override async Task<T> Get(Guid id)
-        {
-            return await TableOfUser
-                .Where(m => m.Id == id)
-                .FirstOrDefaultAsync();
-        }
-
-        public override async Task<IEnumerable<T>> GetAll()
-        {
-            return await TableOfUser.ToListAsync();
-        }
-
-        public override async Task<IEnumerable<T>> Find(Expression<Func<T, bool>> predicate)
-        {
-            return await TableOfUser
-                .Where(predicate)
-                .ToListAsync();
-        }
         public override async Task<T> Create(T item)
         {
             item.UserId = UserId;
-            return (await Set.AddAsync(item)).Entity;
+            return await base.Create(item);
         }
     }
 }

@@ -10,10 +10,10 @@ namespace AccountingApp.DAO.Repositories
 {
     public class BudgetChangeRepository : BudgetRepository<BudgetChange>
     {
-        protected override IQueryable<BudgetChange> TableOfUser => Set
-                                                                   .Include(m => m.BudgetType)
-                                                                   .Where(m => m.UserId == UserId)
-                                                                   .SelectRequiredColumns();
+        protected override IQueryable<BudgetChange> SetAsQueryable => Set
+                                                                      .Include(m => m.BudgetType)
+                                                                      .Where(m => m.UserId == UserId)
+                                                                      .SelectRequiredColumns();
 
         public BudgetChangeRepository(IAccountingUnitOfWork unitOfWork) 
             : base(unitOfWork)
