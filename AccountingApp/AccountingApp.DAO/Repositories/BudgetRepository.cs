@@ -2,9 +2,7 @@
 using AccountingApp.DAO.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace AccountingApp.DAO.Repositories
@@ -50,6 +48,16 @@ namespace AccountingApp.DAO.Repositories
         {
             item.UserId = UserId;
             return await base.Create(item);
+        }
+
+        public override async Task<T> Get(Guid id)
+        {
+            var item = await base.Get(id);
+            if (item is null || item.UserId != UserId)
+            {
+                return null;
+            }
+            return item;
         }
     }
 }

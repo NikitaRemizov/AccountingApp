@@ -69,7 +69,7 @@ namespace AccountingApp.Tests.Services
         {
             RepositoryMock
                 .Setup(r => r.Create(It.IsAny<BudgetChange>()))
-                .ThrowsAsync(new InvalidEntityException(string.Empty));
+                .ThrowsAsync(new InvalidEntityException(string.Empty, null));
             RepositoryMock
                 .Setup(r => r.Save())
                 .Returns(() => Task.CompletedTask);
@@ -84,7 +84,7 @@ namespace AccountingApp.Tests.Services
         {
             RepositoryMock
                 .Setup(r => r.Update(It.IsAny<BudgetChange>()))
-                .ThrowsAsync(new InvalidEntityException(string.Empty));
+                .ThrowsAsync(new InvalidEntityException(string.Empty, null));
             RepositoryMock
                 .Setup(r => r.Save())
                 .Returns(() => Task.CompletedTask);

@@ -6,6 +6,7 @@ using AccountingApp.DAO.Repositories.Interfaces;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using AccountingApp.DAO.Utils;
 
 namespace AccountingApp.BLL.Services
 {

@@ -26,10 +26,11 @@ namespace AccountingApp.DAO.Repositories
             {
                 await base.Save();
             }
-            catch (Microsoft.EntityFrameworkCore.DbUpdateException)
+            catch (DbUpdateException ex)
             {
                 throw new InvalidEntityException(
-                    $"Can not create BudgetChange entity with non existing BudgetType. Specify correct BudgetType");
+                    $"Can not create BudgetChange entity with non existing BudgetType. Specify correct BudgetType",
+                    ex);
             }
         }
     }

@@ -57,9 +57,7 @@ namespace AccountingApp.DAO.Repositories
 
         public virtual async Task<T> Get(Guid id)
         {
-            return await SetAsQueryable
-                .Where(b => b.Id == id)
-                .FirstOrDefaultAsync();
+            return await Set.FindAsync(id);
         }
 
         public virtual async Task<IEnumerable<T>> Find(Expression<Func<T, bool>> predicate)
