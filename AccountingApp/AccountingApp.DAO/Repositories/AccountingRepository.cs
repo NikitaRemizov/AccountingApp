@@ -15,7 +15,7 @@ namespace AccountingApp.DAO.Repositories
     {
         protected static Func<T, T, T> _map;
         protected DbContext _dbContext;
-        protected virtual IQueryable<T> SetAsQueryable => _dbContext.Set<T>();
+        protected virtual IQueryable<T> SetAsQueryable => _dbContext.Set<T>().AsNoTracking();
         protected virtual DbSet<T> Set => _dbContext.Set<T>();
         private Action _dispose;
 
