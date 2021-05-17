@@ -1,0 +1,636 @@
+{
+	"info": {
+		"_postman_id": "0ed0fe55-432d-4207-913e-96272149aa08",
+		"name": "AccountingAppApi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "register",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"pm.environment.set(\"jwtToken\", jsonData.accessToken);\r",
+							"pm.collectionVariables.set(\"accessToken\", jsonData.accessToken);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"meh1@example.com\",\r\n  \"password\": \"12345678\"\r\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/register",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"pm.collectionVariables.set(\"accessToken\", jsonData.accessToken);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"email\": \"meh1@example.com\",\r\n  \"password\": \"12345678\"\r\n}"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/login",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "budgettype",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"pm.collectionVariables.set(\"typeId\", jsonData.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"name\": \"newType\"\r\n}\r\n"
+				},
+				"url": {
+					"raw": "{{baseUrl}}/budget/type",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"budget",
+						"type"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "budgettype",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/budget/type",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"budget",
+						"type"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "budgettype",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"updatedType\",\r\n    \"id\": \"{{typeId}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/budget/type",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"budget",
+						"type"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "budgettype",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{baseUrl}}/budget/type/:id",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"budget",
+						"type",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "{{typeId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "budgetchange",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"pm.collectionVariables.set(\"budgetChangeId\", jsonData.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"date\": \"2021-01-22\",\r\n    \"amount\": -44444,\r\n    \"budgetTypeId\": \"{{typeId}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/budget/change/",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"budget",
+						"change",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "budgetchange/fordate",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var template = `\r",
+							"    <table bgcolor=\"#f0f0f0\">\r",
+							"        <tr>\r",
+							"            <th>Id</th>\r",
+							"            <th>Budget type</th>\r",
+							"        </tr>\r",
+							"\r",
+							"        {{#each response}}\r",
+							"            <tr>\r",
+							"                <td>{{id}}</td>\r",
+							"                <td>{{name}}</td>\r",
+							"            </tr>\r",
+							"        {{/each}}\r",
+							"    </table>\r",
+							"`;\r",
+							"\r",
+							"var resp = pm.response.json();\r",
+							"if(resp != null)\r",
+							"    pm.visualizer.set(template, {response: pm.response.json()})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/budget/change/fordate/?date=01-22-2021",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"budget",
+						"change",
+						"fordate",
+						""
+					],
+					"query": [
+						{
+							"key": "date",
+							"value": "01-22-2021"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "budgetchange/betweendates",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var template = `\r",
+							"    <table bgcolor=\"#f0f0f0\">\r",
+							"        <tr>\r",
+							"            <th>Id</th>\r",
+							"            <th>Budget type</th>\r",
+							"        </tr>\r",
+							"\r",
+							"        {{#each response}}\r",
+							"            <tr>\r",
+							"                <td>{{id}}</td>\r",
+							"                <td>{{name}}</td>\r",
+							"            </tr>\r",
+							"        {{/each}}\r",
+							"    </table>\r",
+							"`;\r",
+							"var resp = pm.response.json();\r",
+							"if(resp != null)\r",
+							"    pm.visualizer.set(template, {response: pm.response.json()})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/budget/change/betweendates/?from=01-01-2021&to=02-01-2021",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"budget",
+						"change",
+						"betweendates",
+						""
+					],
+					"query": [
+						{
+							"key": "from",
+							"value": "01-01-2021"
+						},
+						{
+							"key": "to",
+							"value": "02-01-2021"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "budgetchange",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\r\n        \"date\": \"2021-01-23T00:00:00\",\r\n        \"amount\": 300,\r\n        \"budgetTypeId\": \"{{typeId}}\",\r\n        \"id\": \"{{budgetChangeId}}\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/budget/change/?date=12-01-2020",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"budget",
+						"change",
+						""
+					],
+					"query": [
+						{
+							"key": "date",
+							"value": "12-01-2020"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "budgetchange",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "{{baseUrl}}/budget/change/:id",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"budget",
+						"change",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "{{budgetChangeId}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{accessToken}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://localhost:44347"
+		},
+		{
+			"key": "accessToken",
+			"value": "---"
+		},
+		{
+			"key": "budgetType",
+			"value": "Type1"
+		},
+		{
+			"key": "budgetChange",
+			"value": "Change1"
+		},
+		{
+			"key": "email",
+			"value": "meh1@example.com"
+		},
+		{
+			"key": "password",
+			"value": "12345678"
+		},
+		{
+			"key": "typeId",
+			"value": ""
+		},
+		{
+			"key": "budgetChangeId",
+			"value": ""
+		}
+	]
+}
