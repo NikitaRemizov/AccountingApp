@@ -24,7 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AccountingApp.BLL\AccountingApp.BLL.csproj" />
-    <ProjectReference Include="..\AccountingApp.DAO\AccountingApp.DAO.csproj" />
+    <ProjectReference Include="..\AccountingApp.DAL\AccountingApp.DAL.csproj" />
     <ProjectReference Include="..\AccountingApp\AccountingApp.csproj" />
   </ItemGroup>
 

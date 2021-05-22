@@ -1,7 +1,7 @@
-﻿using AccountingApp.DAO.Models;
-using AccountingApp.DAO.Repositories;
-using AccountingApp.DAO.Repositories.Interfaces;
-using AccountingApp.DAO.Utils;
+﻿using AccountingApp.DAL.Models;
+using AccountingApp.DAL.Repositories;
+using AccountingApp.DAL.Repositories.Interfaces;
+using AccountingApp.DAL.Utils;
 using AccountingApp.Tests.Repositories.Utils;
 using System;
 using System.Collections.Generic;

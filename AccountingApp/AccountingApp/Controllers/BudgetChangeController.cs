@@ -1,11 +1,11 @@
-﻿using AccountingApp.Models;
-using AutoMapper;
+﻿using AutoMapper;
 using AccountingApp.BLL.DTO;
 using AccountingApp.BLL.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AccountingApp.Shared.Models;
 
 namespace AccountingApp.Controllers
 {

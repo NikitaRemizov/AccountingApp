@@ -1,8 +1,8 @@
 ﻿using AccountingApp.BLL.DTO;
 using AccountingApp.BLL.Services;
-using AccountingApp.DAO.Models;
-using AccountingApp.DAO.Repositories.Interfaces;
-using AccountingApp.DAO.Utils;
+using AccountingApp.DAL.Models;
+using AccountingApp.DAL.Repositories.Interfaces;
+using AccountingApp.DAL.Utils;
 using Moq;
 using System;
 using System.Collections.Generic;

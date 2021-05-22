@@ -1,6 +1,4 @@
-﻿using AccountingApp.Models;
-using AccountingApp.Models.Validation;
-using AutoMapper;
+﻿using AutoMapper;
 using AccountingApp.BLL.DTO;
 using AccountingApp.BLL.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -9,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using AccountingApp.Shared.Models;
+using AccountingApp.Shared.Models.Validation;
 
 namespace AccountingApp.Controllers
 {

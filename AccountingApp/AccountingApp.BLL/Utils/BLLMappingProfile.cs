@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using AccountingApp.BLL.DTO;
-using AccountingApp.DAO.Models;
+using AccountingApp.DAL.Models;
 
 namespace AccountingApp.BLL.Utils
 {

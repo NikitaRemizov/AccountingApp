@@ -1,6 +1,6 @@
 ﻿using AccountingApp.BLL.Utils;
-using AccountingApp.DAO.Databases;
-using AccountingApp.DAO.Models;
+using AccountingApp.DAL.Databases;
+using AccountingApp.DAL.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

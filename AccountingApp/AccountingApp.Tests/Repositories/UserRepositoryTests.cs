@@ -1,6 +1,6 @@
-﻿using AccountingApp.DAO.Models;
-using AccountingApp.DAO.Repositories;
-using AccountingApp.DAO.Repositories.Interfaces;
+﻿using AccountingApp.DAL.Models;
+using AccountingApp.DAL.Repositories;
+using AccountingApp.DAL.Repositories.Interfaces;
 using Xunit;
 using Moq;
 using AccountingApp.Tests.Repositories.Utils;

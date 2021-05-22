@@ -1,6 +1,4 @@
-﻿using AccountingApp.Models;
-using AccountingApp.Models.Validation;
-using AccountingApp.Utils;
+﻿using AccountingApp.Utils;
 using AutoMapper;
 using AccountingApp.BLL.DTO;
 using AccountingApp.BLL.Services.Interfaces;
@@ -11,6 +9,8 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using AccountingApp.Shared.Models.Validation;
+using AccountingApp.Shared.Models;
 
 namespace AccountingApp.Controllers
 {

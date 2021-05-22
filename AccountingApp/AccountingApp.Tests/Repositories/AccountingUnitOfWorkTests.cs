@@ -1,5 +1,5 @@
-﻿using AccountingApp.DAO.Repositories;
-using AccountingApp.DAO.Repositories.Interfaces;
+﻿using AccountingApp.DAL.Repositories;
+using AccountingApp.DAL.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using System;

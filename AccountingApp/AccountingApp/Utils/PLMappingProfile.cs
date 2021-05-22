@@ -1,5 +1,5 @@
-﻿using AccountingApp.Models;
-using AccountingApp.BLL.DTO;
+﻿using AccountingApp.BLL.DTO;
+using AccountingApp.Shared.Models;
 
 namespace AccountingApp.Utils
 {

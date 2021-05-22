@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using AccountingApp.BLL.DTO;
 using AccountingApp.BLL.Services.Interfaces;
-using AccountingApp.DAO.Models;
-using AccountingApp.DAO.Repositories.Interfaces;
+using AccountingApp.DAL.Models;
+using AccountingApp.DAL.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

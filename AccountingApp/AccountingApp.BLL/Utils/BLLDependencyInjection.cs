@@ -1,7 +1,7 @@
 ﻿using Autofac;
-using AccountingApp.DAO.Models;
-using AccountingApp.DAO.Repositories;
-using AccountingApp.DAO.Repositories.Interfaces;
+using AccountingApp.DAL.Models;
+using AccountingApp.DAL.Repositories;
+using AccountingApp.DAL.Repositories.Interfaces;
 
 namespace AccountingApp.BLL.Utils
 {
@@ -17,7 +17,7 @@ namespace AccountingApp.BLL.Utils
         {
             builder
                 .RegisterModule(
-                    new AccountingApp.DAO.Utils.DAOModelsDependencyInjection(_connectionString)
+                    new AccountingApp.DAL.Utils.DAOModelsDependencyInjection(_connectionString)
                 );
             builder
                 .RegisterType<UserRepository>()

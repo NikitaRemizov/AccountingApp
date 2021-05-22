@@ -1,7 +1,7 @@
 ﻿using AccountingApp.BLL.DTO;
 using AccountingApp.BLL.Services.Interfaces;
 using AccountingApp.Controllers;
-using AccountingApp.Models;
+using AccountingApp.Shared.Models;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System;

@@ -1,10 +1,8 @@
-﻿using AccountingApp.Models;
-using AutoMapper;
-using AccountingApp.BLL.DTO;
+﻿using AccountingApp.BLL.DTO;
 using AccountingApp.BLL.Services.Interfaces;
+using AccountingApp.Shared.Models;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

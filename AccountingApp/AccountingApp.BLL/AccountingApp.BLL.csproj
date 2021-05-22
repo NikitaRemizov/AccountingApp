@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AccountingApp.DAO\AccountingApp.DAO.csproj" />
+    <ProjectReference Include="..\AccountingApp.DAL\AccountingApp.DAL.csproj" />
   </ItemGroup>
 
 </Project>
