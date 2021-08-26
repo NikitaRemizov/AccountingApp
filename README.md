@@ -10,12 +10,6 @@ Main features:
 * Create/retrieve/update/delete the types (categories) of income or expenses
 * Create/retrieve/update/delete the income or expenses records containing information about the date, amount of money, type of budget change
 * The Application is created using `.NET 5`,  `ASP.NET Core 5`,  `Entity Framework Core 5`.
-<br />
-<br />
-[Link to the API](https://accountingappapi.azurewebsites.net)
-
-## Describe more specificaly how each endpoint is used
-
 
 # API description
 
